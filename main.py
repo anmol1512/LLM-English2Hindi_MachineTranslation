@@ -24,13 +24,24 @@ if __name__ == '__main__':
 
     ''' Data Loading'''
     print('LOADING DATA.........................')
-    data = EnglishHindiDataset(config.data)
+    cfilt = EnglishHindiDataset(config.data)
     
-    model_type = 'facebook/m2m100_418M'
-    source_lang = "en"
-    target_lang = "hi"
-    
-    # Initialize the data processor
-    processor = DataProcessor(model_type, source_lang, target_lang)
-    tokenized_data = processor.prepare_dataset(data)
+   
+    '''Data Preprocessing'''
+    print('DATA IS COOKING..................')
+    # opus-mt
+    opus_processor = DataProcessor('opus-mt-en-hi')
+    opus_tokenized_data = opus_processor.prepare_dataset(cfilt.data)
 
+
+    # m2m100
+    m2m100_processor = DataProcessor('m2m100')
+    m2m100_tokenized_data = m2m100_processor.prepare_dataset(cfilt.data)
+
+    # mbart-large-50
+    mbart_processor = DataProcessor('mbart-large-50')
+    mbart_tokenized_data = mbart_processor.prepare_dataset(cfilt.data)
+
+    # madlad-400
+    madlad_processor = DataProcessor('madlad-400')
+    madlad_tokenized_data = madlad_processor.prepare_dataset(cfilt.data)
